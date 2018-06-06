@@ -1,0 +1,68 @@
+<div class='container'>
+  <div class='mb-3'>
+    <div>
+      <label>Фильтр по производителю</label>
+    </div>
+    <button class='btn  mr-2' *ngFor='let item of marksForFilter' (click)='changeFilterMark(item.id)' [class.btn-outline-primary]='!isMarkInFilter(item.id)'
+      [class.btn-primary]='isMarkInFilter(item.id)'>
+      {{item.name}}
+    </button>    
+  </div>
+  <div class='mb-3'>
+      <div>
+          <label>Сортировка</label>
+        </div>
+        <button class='btn btn-outline-primary mr-2' (click)='changeSort(nameSort)'>
+          Имя
+          <span *ngIf='this.filter.sort == nameSort' class="oi oi-arrow-thick-bottom"></span>
+          <span *ngIf='this.filter.sort == nameSort + 1' class="oi oi-arrow-thick-top"></span>
+        </button>
+        <button class='btn btn-outline-primary mr-2' (click)='changeSort(priceSort)'>
+          Цена
+          <span *ngIf='this.filter.sort == priceSort' class="oi oi-arrow-thick-bottom"></span>
+          <span *ngIf='this.filter.sort == priceSort + 1' class="oi oi-arrow-thick-top"></span>
+        </button>
+  </div>
+  <div class="input-group pb-4">
+    <div class="input-group-prepend">
+      <div class="input-group-text" id="btnGroupAddon">Поиск по имени</div>
+    </div>
+    <input type="text" [(ngModel)]="filter.nameFilter" (keyup)="filter.pageNumber = 1;UpdateTable();" class="form-control" placeholder="Введите что-нибудь"
+      aria-label="Input group example" aria-describedby="btnGroupAddon">
+  </div>
+  <div *ngIf='sparePartList.spareParts.length > 0'>
+    <div *ngFor='let item of sparePartList.spareParts' class="card pb-2 mb-4">
+      <div class="card-header">
+        {{item.markName}}
+        <span class="float-right">{{item.price | currency:'RUB'}}</span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <div>
+          <img *ngIf='item.imageId > 0' class='float-right small-image' [src]="PathToImage(item.imageId)" alt="Картиночка">
+          <p class="card-text">{{item.description}}</p>
+        </div>
+        <br>
+        <div style='clear: both;'>
+          <button class="btn btn-primary" [disabled]='isInCart(item.id)' (click)='addToCart(item.id)'>Add to
+            <span class="oi oi-cart"></span>
+          </button>
+          <button class="btn btn-outline-danger" *ngIf='isInCart(item.id)' (click)='removeFromCart(item.id)'>Remove from 
+              <span class="oi oi-cart"></span>
+            </button>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      Страница:
+      <div class="btn-group">
+        <button *ngFor='let page of pages' type="button" (click)='filter.pageNumber = page; UpdateTable();' class="btn" [ngClass]="{'btn-secondary':filter.pageNumber==page, 'btn-outline-secondary':filter.pageNumber!=page}">
+          {{page}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf='sparePartList.spareParts.length < 1' class='mx-auto'>
+    <p>Ничего не найдено :(</p>
+  </div>
+</div>

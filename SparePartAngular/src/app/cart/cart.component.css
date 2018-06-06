@@ -1,0 +1,15 @@
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+h2 {
+    text-align: center;
+}
+
+.del {
+    cursor: pointer;
+}
+
+.summary {
+    text-align: right
+}

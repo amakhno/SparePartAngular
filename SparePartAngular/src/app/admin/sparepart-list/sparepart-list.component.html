@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="input-group pb-4">
+    <div class="input-group-prepend">
+      <div class="input-group-text" id="btnGroupAddon">Поиск по имени</div>
+    </div>
+    <input type="text" [(ngModel)]="filter.nameFilter" (keyup)="filter.pageNumber = 1;UpdateTable();" class="form-control" placeholder="Введите что-нибудь"
+      aria-label="Input group example" aria-describedby="btnGroupAddon">
+  </div>
+  <table *ngIf='sparePartList.spareParts.length > 0' class="table">
+    <thead>
+      <tr>
+        <th class='clickable' (click)='changeSort(3)'>Id
+          <span *ngIf='this.filter.sort == 3' class="oi oi-arrow-thick-bottom"></span>
+          <span *ngIf='this.filter.sort == 4' class="oi oi-arrow-thick-top"></span>
+        </th>
+        <th class='clickable' (click)='changeSort(1)'>Название
+          <span *ngIf='this.filter.sort == 1' class="oi oi-arrow-thick-bottom"></span>
+          <span *ngIf='this.filter.sort == 2' class="oi oi-arrow-thick-top"></span>
+        </th>
+        <th>Логотип</th>
+        <th class='clickable' (click)='changeSort(7)'>Цена
+          <span *ngIf='this.filter.sort == 7' class="oi oi-arrow-thick-bottom"></span>
+          <span *ngIf='this.filter.sort == 8' class="oi oi-arrow-thick-top"></span>
+        </th>
+        <th>Действия </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let item of sparePartList.spareParts'>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>
+          <img *ngIf='item.imageId > 0' class='small-image' [src]="PathToImage(item.imageId)" alt="Картиночка">
+        </td>
+        <td>{{item.price}}</td>
+        <td>
+          <a class="btn btn-outline-secondary" [routerLink]="['..','sparepartedit',item.id]">
+            Edit
+          </a>
+          <a class="btn btn-outline-secondary" (click)='delete(item.id)'>
+            Delete
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <a class='btn btn-outline-primary' routerLink='/admin/sparepartedit'>
+      Добавить
+    </a>
+    <div class="float-right">
+      Сколько:
+      <select [(ngModel)]='filter.pageSize' (change)='filter.pageNumber = 1;UpdateTable();' class='form-control select-pages'>
+        <option *ngFor='let item of pageSizes'>{{item}}</option>
+      </select>
+      Страница:
+      <div class="btn-group">
+        <button *ngFor='let page of pages' type="button" (click)='filter.pageNumber = page; UpdateTable();' class="btn" [ngClass]="{'btn-secondary':filter.pageNumber==page, 'btn-outline-secondary':filter.pageNumber!=page}">
+          {{page}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

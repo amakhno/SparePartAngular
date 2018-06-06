@@ -1,0 +1,9 @@
+.small-image {
+    max-height: 38px;
+}
+
+.select-pages {
+    display: inline;
+    padding: 4px 10px;
+    width: auto;
+}

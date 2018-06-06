@@ -1,0 +1,56 @@
+<div class='container'>
+  <div *ngIf='cartPositions.length == 0'>
+    <h2>В корзине пусто :(</h2>
+  </div>
+  <div *ngIf='cartPositions.length > 0'>
+    <h2>Оформить заказ</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Название</th>
+          <th scope="col">Описание</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Количество</th>
+          <th scope="col">Сумма</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let item2 of cartPositions; let index=index'>
+          <td>{{index + 1}}</td>
+          <td>{{item2.sparePart.name}}</td>
+          <td>{{item2.sparePart.description.substr(0, 20) + '...'}}</td>
+          <td>{{item2.sparePart.price}}</td>
+          <td>
+            <input type="number" class='form-control' (change)='checkAbove(item2.sparePart.id, $event);' [(ngModel)]='item2.quantity' />
+          </td>
+          <td>{{item2.price * item2.quantity}}</td>
+          <td><span class="del oi oi-circle-x" (click)='removeFromCart(item2.sparePart.id)'></span></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="summary">Итого:</td>
+          <td>{{getTotal()}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Выберите дату доставки</h3>
+    <form #sendForm=ngForm (ngSubmit)='Send(sendForm);'>
+      <div class='form-group'>
+        <label>Дата отправки</label>
+        <div>
+          <p-calendar [(ngModel)]='date' showIcon='true' icon='oi oi-calendar' name='date' dateFormat="dd.mm.yy">
+          </p-calendar>
+        </div>
+      </div>
+      <div class='form-group'>
+        <input type="submit" text="Ок" class='button btn btn-success' />
+      </div>
+    </form>
+  </div>
+</div>

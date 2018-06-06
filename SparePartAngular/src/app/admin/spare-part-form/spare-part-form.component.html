@@ -1,0 +1,32 @@
+<div class="container">
+  <form #form="ngForm" (ngSubmit)="submit(form)" novalidate>
+    <h2>Добавление запчасти</h2>
+    <div class="form-group">
+      <label>Название</label>
+      <input type="text" class="form-control" required name="name" [(ngModel)]="sparePart.name" />
+    </div>
+    <div class="form-group">
+      <label>Описание</label>
+      <textarea rows="2" class="form-control" required name="desc" [(ngModel)]="sparePart.description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="name">Картиночка</label>
+      <input type="file" (change)="fileChange($event)" placeholder="Upload file" class="form-control-file">
+      <div *ngIf="PathToImage != null">
+        <img class='rounded mx-auto d-block' style='max-height: 100px' [src]="PathToImage" alt="Картиночка">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Цена</label>
+      <input type="text" class="form-control" name="price" required [(ngModel)]="sparePart.price" />
+    </div>
+    <div class="form-group">
+      <label>Mark</label>
+      <select class="form-control" name='mark' [(ngModel)]="sparePart.markId" required>
+        <option value=-1>--Выберите--</option>
+        <option *ngFor="let item of marks" value={{item.id}}>{{item.name}}</option>
+      </select>
+    </div>
+    <input type="submit" class="btn btn-primary" [disabled]='form.pristine' value="Сохранить" />
+  </form>
+</div>

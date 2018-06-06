@@ -1,0 +1,15 @@
+<div class="form-signin-contaner">    
+    <form class="form-signin" [class.sended]="sended" style="width: 400px;" #myForm=ngForm novalidate>
+        <h3>Регистрация</h3>
+        <div class="form-group">
+            <label>Имя</label>
+            <input [(ngModel)]="name" name="name" type="text" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label>Пароль</label>
+            <input [(ngModel)]="password" name="password" namtype="text" class="form-control" required/>
+        </div>
+        <p *ngIf='message.length > 0 && !myForm.valid'>{{message}}</p>
+        <button class="btn btn-primary" (click)="onSubmit(myForm)">Регистрация</button>
+    </form>
+</div>
